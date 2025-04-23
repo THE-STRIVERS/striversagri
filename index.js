@@ -89,6 +89,22 @@
 //   li.style.color = color;
 //   ul.prepend(li);
 // }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // const MQTT_BROKER = "wss://mqtt.eclipseprojects.io/mqtt";
 // const MQTT_TOPIC = "raspberrypi/sensors";
 // const API_URL = "http://127.0.0.1:5000/predict"; // Flask API URL
@@ -465,7 +481,7 @@
 
 // script.js
 
-const API_URL = "https://striversagri.onrender.com"; // Flask API
+const API_URL = "https://striversagri.onrender.com/index.html"; // Flask API
 const SENSOR_API = "https://atozagriculture-1.onrender.com/sensordata"; // Sensor API
 const apiKey = "9afd8abc3856f72416463be47783bca4"; // OpenWeatherMap
 
