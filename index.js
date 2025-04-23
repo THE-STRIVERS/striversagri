@@ -281,7 +281,8 @@
 //     document.getElementById("forecastContainer").innerHTML =
 //       "<p style='color: red;'>Could not fetch weather forecast.</p>";
 //   }
-// }const API_URL = "http://127.0.0.1:5000/predict"; // Flask AI/ML API
+// }
+// const API_URL = "http://127.0.0.1:5000/predict"; // Flask AI/ML API
 // const SENSOR_API = "https://atozagriculture-1.onrender.com/sensordata"; // Your HTTP Sensor API
 // const apiKey = "9afd8abc3856f72416463be47783bca4"; // OpenWeatherMap API (optional for weather integration)
 
@@ -464,13 +465,12 @@
 
 // script.js
 
-const API_URL = "https://striversagri.onrender.com"; // Flask AI/ML API
+const API_URL = "https://striversagri.onrender.com"; // Flask API
 const SENSOR_API = "https://atozagriculture-1.onrender.com/sensordata"; // Sensor API
-const apiKey = "9afd8abc3856f72416463be47783bca4"; // OpenWeatherMap API
+const apiKey = "9afd8abc3856f72416463be47783bca4"; // OpenWeatherMap
 
-// Auto-fetch sensor data every 5 seconds
 setInterval(fetchSensorData, 5000);
-fetchSensorData(); // Initial fetch
+fetchSensorData();
 
 async function fetchSensorData() {
   try {
@@ -514,21 +514,11 @@ function updateBar(barId, value, max, valueId, type) {
 }
 
 function getBarColor(index, type) {
-  const green = "#32cd32";
-  const yellow = "#ff8c00";
-  const cool = "#00bfff";
-  const hot = "#ff4500";
-  const dry = "#ffa500";
-  const wet = "#006400";
-  const lowLight = "#444";
-  const highLight = "#ffe600";
-  const mediumLight = "#ffff66";
-
-  if (type === "Moisture") return index < 5 || index >= 11 ? yellow : green;
-  if (type === "Temperature") return index < 5 ? cool : index >= 11 ? hot : green;
-  if (type === "Humidity") return index < 5 ? dry : index >= 11 ? wet : green;
-  if (type === "Light") return index < 5 ? lowLight : index >= 11 ? highLight : mediumLight;
-  return green;
+  if (type === "Moisture") return index < 5 || index >= 11 ? "#ff8c00" : "#32cd32";
+  if (type === "Temperature") return index < 5 ? "#00bfff" : index >= 11 ? "#ff4500" : "#32cd32";
+  if (type === "Humidity") return index < 5 ? "#ffa500" : index >= 11 ? "#006400" : "#32cd32";
+  if (type === "Light") return index < 5 ? "#444" : index >= 11 ? "#ffe600" : "#ffff66";
+  return "#32cd32";
 }
 
 function displayAlerts(alerts) {
@@ -550,23 +540,20 @@ function addNotification(message, color) {
   ul?.prepend(li);
 }
 
-// Weather forecast
+// Weather forecast on load
 window.onload = () => {
   if ("geolocation" in navigator) {
-    navigator.geolocation.getCurrentPosition(
-      async (position) => {
-        const lat = position.coords.latitude;
-        const lon = position.coords.longitude;
-        const cityName = await fetchCityName(lat, lon);
-        document.getElementById("locationName").innerText = cityName;
-        fetchForecast(lat, lon);
-      },
-      (error) => {
-        console.error("Location error:", error);
-        document.getElementById("forecastContainer").innerHTML =
-          "<p style='color: red;'>Location access denied. Forecast not available.</p>";
-      }
-    );
+    navigator.geolocation.getCurrentPosition(async (position) => {
+      const lat = position.coords.latitude;
+      const lon = position.coords.longitude;
+      const cityName = await fetchCityName(lat, lon);
+      document.getElementById("locationName").innerText = cityName;
+      fetchForecast(lat, lon);
+    }, (error) => {
+      console.error("Location error:", error);
+      document.getElementById("forecastContainer").innerHTML =
+        "<p style='color: red;'>Location access denied. Forecast not available.</p>";
+    });
   } else {
     alert("Geolocation not supported by your browser.");
   }
@@ -637,7 +624,6 @@ async function fetchForecast(lat, lon) {
 
       container.appendChild(card);
     });
-
   } catch (err) {
     console.error("Error fetching forecast:", err);
     document.getElementById("forecastContainer").innerHTML =

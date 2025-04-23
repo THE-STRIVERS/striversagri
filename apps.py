@@ -243,7 +243,7 @@ def send_email(subject, message):
     except Exception as e:
         logger.error(f"❌ Email failed: {str(e)}")
 
-# --- Routes ---
+# --- API Routes ---
 
 @app.route('/predict', methods=['POST'])
 def predict():
