@@ -1,3 +1,4 @@
+# app.py
 
 import os
 import logging
@@ -73,7 +74,6 @@ def serve_frontend():
 def serve_static(path):
     return send_from_directory(app.static_folder, path)
 
-# Crop Monitoring
 @app.route('/predict', methods=['POST'])
 def predict():
     try:
@@ -128,7 +128,6 @@ def predict():
 def get_alerts():
     return jsonify(alert_history)
 
-# Crop Recommendation
 @app.route('/recommend_crop', methods=['POST'])
 def recommend_crop():
     try:

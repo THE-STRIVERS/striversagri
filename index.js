@@ -462,6 +462,8 @@
 //   }
 // }
 
+// script.js
+
 const API_URL = "https://striversagri.onrender.com"; // Flask AI/ML API
 const SENSOR_API = "https://atozagriculture-1.onrender.com/sensordata"; // Sensor API
 const apiKey = "9afd8abc3856f72416463be47783bca4"; // OpenWeatherMap API
@@ -470,7 +472,6 @@ const apiKey = "9afd8abc3856f72416463be47783bca4"; // OpenWeatherMap API
 setInterval(fetchSensorData, 5000);
 fetchSensorData(); // Initial fetch
 
-// ---------------------- SENSOR + AI HANDLING ----------------------
 async function fetchSensorData() {
   try {
     const response = await fetch(SENSOR_API);
@@ -487,7 +488,7 @@ async function fetchSensorData() {
     updateBar("moisture-bar", soilMoisture, 100, "moisture-value", "Moisture");
     updateBar("light-bar", lightIntensity, 1023, "light-value", "Light");
 
-    const aiResponse = await fetch(API_URL, {
+    const aiResponse = await fetch(`${API_URL}/predict`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ temperature, humidity, soil_moisture: soilMoisture, light_intensity: lightIntensity })
@@ -549,7 +550,7 @@ function addNotification(message, color) {
   ul?.prepend(li);
 }
 
-// ---------------------- WEATHER FORECAST HANDLING ----------------------
+// Weather forecast
 window.onload = () => {
   if ("geolocation" in navigator) {
     navigator.geolocation.getCurrentPosition(
