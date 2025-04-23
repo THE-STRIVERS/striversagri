@@ -1,7 +1,6 @@
 __pycache__/
 *.pyc
+instance/
 .env
 venv/
-*.pkl
-.DS_Store
-*.log
+.env.local
