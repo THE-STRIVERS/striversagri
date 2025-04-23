@@ -1,0 +1,312 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Crop Disease Chatbot</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f3f7f6;
+      padding: 20px;
+    }
+
+    .chat-container {
+      max-width: 600px;
+      margin: auto;
+      background: white;
+      border-radius: 8px;
+      padding: 20px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    h2 {
+      text-align: center;
+      color: #2e7d32;
+    }
+
+    .chat-box {
+      border: 1px solid #ccc;
+      padding: 15px;
+      height: 300px;
+      overflow-y: auto;
+      background: #fafafa;
+      margin-bottom: 15px;
+    }
+
+    .message {
+      margin: 10px 0;
+    }
+
+    .user {
+      color: #1a237e;
+      font-weight: bold;
+    }
+
+    .bot {
+      color: #2e7d32;
+    }
+
+    input[type="text"] {
+      width: 80%;
+      padding: 10px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+
+    button {
+      padding: 10px 15px;
+      background: #2e7d32;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #1b5e20;
+    }
+  </style>
+</head>
+<body>
+
+<div class="chat-container">
+  <h2>🌾 Crop Disease Chatbot</h2>
+  <div class="chat-box" id="chat-box">
+    <div class="message bot">🤖 Hello! Ask me about any plant disease like <i>tomato_late_blight</i> or <i>chilli_leaf_curl</i>.</div>
+  </div>
+  <input type="text" id="user-input" placeholder="Type a disease name..." />
+  <button onclick="sendMessage()">Send</button>
+</div>
+
+<script>
+  async function sendMessage() {
+    const input = document.getElementById("user-input");
+    const chatBox = document.getElementById("chat-box");
+    const userMessage = input.value.trim();
+
+    if (userMessage === "") return;
+
+    chatBox.innerHTML += `<div class="message user">🧑: ${userMessage}</div>`;
+    input.value = "";
+    chatBox.scrollTop = chatBox.scrollHeight;
+
+    try {
+      const response = await fetch("http://127.0.0.1:5001/chatbot", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message: userMessage })
+      });
+
+      const data = await response.json();
+      let botResponse = "";
+
+      if (data.disease) {
+        botResponse += `<b>Disease:</b> ${data.disease}<br>`;
+        botResponse += `<b>Description:</b> ${data.description}<br>`;
+        botResponse += `<b>Symptoms:</b> <ul>${data.symptoms.map(sym => `<li>${sym}</li>`).join("")}</ul>`;
+        botResponse += `<b>Organic Treatment:</b> ${data.treatment_organic}<br>`;
+        botResponse += `<b>Inorganic Treatment:</b> ${data.treatment_inorganic}<br>`;
+        botResponse += `<b>Pesticides:</b> ${data.pesticides.join(", ") || "None"}<br>`;
+      } else {
+        botResponse = data.message;
+      }
+
+      chatBox.innerHTML += `<div class="message bot">🤖: ${botResponse}</div>`;
+      chatBox.scrollTop = chatBox.scrollHeight;
+    } catch (error) {
+      console.error("Error:", error);
+      chatBox.innerHTML += `<div class="message bot">⚠️ Failed to contact server.</div>`;
+    }
+  }
+
+  document.getElementById("user-input").addEventListener("keydown", function (e) {
+    if (e.key === "Enter") sendMessage();
+  });
+</script>
+
+</body>
+</html> -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Voice Crop Disease Chatbot</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f3f7f6;
+      padding: 20px;
+    }
+
+    .chat-container {
+      max-width: 600px;
+      margin: auto;
+      background: white;
+      border-radius: 8px;
+      padding: 20px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    h2 {
+      text-align: center;
+      color: #2e7d32;
+    }
+
+    .chat-box {
+      border: 1px solid #ccc;
+      padding: 15px;
+      height: 300px;
+      overflow-y: auto;
+      background: #fafafa;
+      margin-bottom: 15px;
+    }
+
+    .message {
+      margin: 10px 0;
+    }
+
+    .user {
+      color: #1a237e;
+      font-weight: bold;
+    }
+
+    .bot {
+      color: #2e7d32;
+    }
+
+    input[type="text"] {
+      width: 65%;
+      padding: 10px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+
+    button {
+      padding: 10px 15px;
+      background: #2e7d32;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #1b5e20;
+    }
+
+    #mic-btn {
+      margin-left: 5px;
+      background: #0288d1;
+    }
+
+    #mic-btn:hover {
+      background: #01579b;
+    }
+  </style>
+</head>
+<body>
+
+<div class="chat-container">
+  <h2>🎙️ Voice Crop Disease Chatbot</h2>
+  <div class="chat-box" id="chat-box">
+    <div class="message bot">🤖 Hello! Ask me about any plant disease like <i>tomato_late_blight</i> or <i>chilli_leaf_curl</i>.</div>
+  </div>
+  <input type="text" id="user-input" placeholder="Type or speak a disease name..." />
+  <button onclick="sendMessage()">Send</button>
+  <button id="mic-btn" onclick="startListening()">🎤</button>
+</div>
+
+<script>
+  // Text-to-Speech
+  function speak(text) {
+    const synth = window.speechSynthesis;
+    const utter = new SpeechSynthesisUtterance(text);
+    utter.rate = 1;
+    utter.pitch = 1;
+    utter.lang = "en-US";
+    synth.speak(utter);
+  }
+
+  // Speech Recognition
+  function startListening() {
+    const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+    recognition.lang = "en-US";
+    recognition.interimResults = false;
+    recognition.maxAlternatives = 1;
+
+    recognition.start();
+
+    recognition.onresult = function (event) {
+      const speechResult = event.results[0][0].transcript;
+      document.getElementById("user-input").value = speechResult;
+      sendMessage();
+    };
+
+    recognition.onerror = function (event) {
+      console.error("Speech recognition error:", event.error);
+      alert("Sorry, voice recognition failed.");
+    };
+  }
+
+  async function sendMessage() {
+    const input = document.getElementById("user-input");
+    const chatBox = document.getElementById("chat-box");
+    const userMessage = input.value.trim();
+
+    if (userMessage === "") return;
+
+    chatBox.innerHTML += `<div class="message user">🧑: ${userMessage}</div>`;
+    input.value = "";
+    chatBox.scrollTop = chatBox.scrollHeight;
+
+    try {
+      const response = await fetch("http://127.0.0.1:5001/chatbot", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message: userMessage })
+      });
+
+      const data = await response.json();
+      let botResponse = "";
+
+      if (data.disease) {
+        botResponse += `Disease: ${data.disease}. `;
+        botResponse += `Description: ${data.description}. `;
+        botResponse += `Symptoms: ${data.symptoms.join(", ")}. `;
+        botResponse += `Organic Treatment: ${data.treatment_organic}. `;
+        botResponse += `Inorganic Treatment: ${data.treatment_inorganic}. `;
+        botResponse += `Pesticides: ${data.pesticides.join(", ") || "None"}. `;
+
+        // Text display version
+        const display = `
+          <b>Disease:</b> ${data.disease}<br>
+          <b>Description:</b> ${data.description}<br>
+          <b>Symptoms:</b> <ul>${data.symptoms.map(sym => `<li>${sym}</li>`).join("")}</ul>
+          <b>Organic Treatment:</b> ${data.treatment_organic}<br>
+          <b>Inorganic Treatment:</b> ${data.treatment_inorganic}<br>
+          <b>Pesticides:</b> ${data.pesticides.join(", ") || "None"}<br>
+        `;
+        chatBox.innerHTML += `<div class="message bot">🤖: ${display}</div>`;
+        speak(botResponse);
+      } else {
+        chatBox.innerHTML += `<div class="message bot">🤖: ${data.message}</div>`;
+        speak(data.message);
+      }
+
+      chatBox.scrollTop = chatBox.scrollHeight;
+    } catch (error) {
+      console.error("Error:", error);
+      chatBox.innerHTML += `<div class="message bot">⚠️ Failed to contact server.</div>`;
+      speak("Failed to contact server.");
+    }
+  }
+
+  document.getElementById("user-input").addEventListener("keydown", function (e) {
+    if (e.key === "Enter") sendMessage();
+  });
+</script>
+
+</body>
+</html>

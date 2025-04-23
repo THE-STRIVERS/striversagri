@@ -1,0 +1,22 @@
+services:
+  - type: web
+    name: smart-agriculture-dashboard
+    env: python
+    plan: free
+    buildCommand: ""
+    startCommand: waitress-serve --host 0.0.0.0 --port $PORT apps:app
+    envVars:
+      - key: EMAIL_SENDER
+        value: bhanustriver@gmail.com
+      - key: EMAIL_PASSWORD
+        value: musfezmgchballwo
+      - key: EMAIL_RECIPIENT
+        value: mohammedmaahin18@gmail.com
+      - key: TWILIO_ACCOUNT_SID
+        value: AC7c756ad93ad478d9ee29ba117b9d7af3
+      - key: TWILIO_AUTH_TOKEN
+        value: 496853750fb784688a697fe66ddbb921
+      - key: TWILIO_PHONE
+        value: +12182506943
+      - key: RECIPIENT_PHONE
+        value: +917989604033

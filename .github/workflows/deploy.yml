@@ -1,0 +1,30 @@
+name: Deploy Smart Agri Dashboard 🌱
+
+on:
+  push:
+    branches:
+      - main  # or 'master', depends on your repo
+
+jobs:
+  build-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: 🚀 Checkout Code
+      uses: actions/checkout@v4
+
+    - name: 🛠️ Setup Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+
+    - name: 📦 Install Dependencies
+      run: |
+        cd be
+        pip install -r requirements.txt
+
+    - name: 🚀 Trigger Render Deployment
+      env:
+        RENDER_DEPLOY_HOOK_URL: ${{ secrets.RENDER_DEPLOY_HOOK_URL }}
+      run: |
+        curl "$RENDER_DEPLOY_HOOK_URL"
